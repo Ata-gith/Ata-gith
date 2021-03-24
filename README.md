@@ -1,7 +1,7 @@
 - 👋 Hi, I’m @Ata-gith
 - 👀 I’m interested in mathematics especially measures and algorithms
 - 🌱 I’m currently learning statistics, I will always be learning statistics.
-- 💞️ I’m looking to collaborate on unity scriptsd
+- 💞️ I’m looking to collaborate on unity scripting and stuff like marching squares implementation.
 - 📫 How to reach me  --->  atadria96@gmail.com
 
 <!---
