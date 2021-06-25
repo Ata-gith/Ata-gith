@@ -1,8 +1,9 @@
-- 👋 Hi, I’m @Ata-gith
-- 👀 I’m interested in mathematics especially measures and algorithms
-- 🌱 I’m currently learning statistics, I will always be learning statistics.
-- 💞️ I’m looking to collaborate on unity scripting and stuff like marching squares implementation.
-- 📫 How to reach me  --->  atadria96@gmail.com
+
+- I’m interested in mathematics especially measures and algorithms
+- I’m currently learning statistics, I will always be learning statistics.
+- I am a computational researcher dealing with molecular systems on atomic scales.
+- I’m looking to implement advanced mathematics concepts such as delay differential equations to molecular dynamics algorithms.
+- How to reach me  --->  atadria96@gmail.com
 
 <!---
 Ata-gith/Ata-gith is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
