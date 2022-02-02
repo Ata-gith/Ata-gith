@@ -1,5 +1,5 @@
+Hello everyone,
 
-- I’m interested in mathematics especially measures and algorithms
 - I am a computational material science researcher dealing with molecular systems on atomic scales.
 - I’m looking to implement advanced mathematical concepts to physics simulation algorithms.
 - How to reach me  --->  atautkuozkan@gmail.com
