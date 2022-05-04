@@ -1,7 +1,7 @@
 Hello everyone,
 
-- I am a computational material science researcher dealing with molecular systems on atomic scales.
-- I’m looking to implement advanced mathematical concepts to physics simulation algorithms.
+- I am a computational material science researcher in National Nanotechnology Research Center - Turkey, dealing with molecular systems on atomic scales.
+- I’m looking to implement advanced mathematical concepts to physics simulation algorithms in both quantum and molecular scale.
 - How to reach me  --->  atautkuozkan@gmail.com
 
 <!---
