@@ -13,7 +13,7 @@ double massH = 1.008;
 
 char bondCC[5]= "gb_27";
 char bondCH[5]= "gb_3";
-char angleCCC[5]= "ga_"
+char angleCCC[5]= "ga_22"
 
 int coorx=0;coory=0;coorz=0;
 
