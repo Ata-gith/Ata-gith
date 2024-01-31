@@ -1,0 +1,147 @@
+LAMMPS (23 Jun 2022)
+# layer sc iron atoms (in the [001] plane) in bismuth oxide
+
+units 		metal
+atom_style 	spin
+dimension 	3
+boundary 	p p f
+
+# necessary for the serial algorithm (sametag)
+atom_modify 	map array
+
+lattice 	sc 3.96
+Lattice spacing in x,y,z = 3.96 3.96 3.96
+region 		box block 0.0 34.0 0.0 34.0 0.0 5.0
+create_box 	1 box
+Created orthogonal box = (0 0 0) to (134.64 134.64 19.8)
+  1 by 1 by 1 MPI processor grid
+create_atoms 	1 box
+Created 5780 atoms
+  using lattice units in orthogonal box = (0 0 0) to (134.64 134.64 19.8)
+  create_atoms CPU = 0.002 seconds
+
+# setting mass, mag. moments, and interactions for bfo
+
+mass		1 1.0
+set 		group all spin/random 11 2.50
+Setting atom values ...
+  5780 settings made for spin/random
+
+#pair_style 	hybrid/overlay spin/exchange 6.0 spin/magelec 4.5
+pair_style 	hybrid/overlay spin/exchange 6.0 spin/magelec 4.5 spin/dmi 4.5
+pair_coeff 	* * spin/exchange exchange 6.0 -0.01575 0.0 1.965
+pair_coeff 	* * spin/magelec magelec 4.5 0.000109 1.0 1.0 1.0
+pair_coeff 	* * spin/dmi dmi 4.5 0.00005 1.0 1.0 1.0
+
+neighbor 	0.1 bin
+neigh_modify 	every 10 check yes delay 20
+
+fix 		1 all precession/spin zeeman 0.0 0.0 0.0 1.0 anisotropy 0.00033 0.0 0.0 1.0
+fix_modify      1 energy yes
+fix 		2 all langevin/spin 0.0 0.1 21
+fix 		3 all nve/spin lattice frozen
+
+timestep	0.0002
+
+compute 	out_mag	 all spin
+compute 	out_pe	 all pe
+compute 	out_ke	 all ke
+compute 	out_temp all temp
+
+variable 	magz	 equal c_out_mag[3]
+variable 	magnorm	 equal c_out_mag[4]
+variable 	emag	 equal c_out_mag[5]
+variable 	tmag	 equal c_out_mag[6]
+
+thermo_style    custom step time v_magnorm pe v_emag temp etotal
+thermo          50
+
+compute outsp all property/atom spx spy spz sp fmx fmy fmz
+dump 		1 all custom 100 dump_bfo.lammpstrj type x y z c_outsp[1] c_outsp[2] c_outsp[3]
+
+run 		500
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- fix nve/spin command:
+
+@article{tranchida2018massively,
+title={Massively parallel symplectic algorithm for coupled magnetic spin dynamics and molecular dynamics},
+author={Tranchida, J and Plimpton, SJ and Thibaudeau, P and Thompson, AP},
+journal={Journal of Computational Physics},
+volume={372},
+pages={406-425},
+year={2018},
+publisher={Elsevier}
+doi={10.1016/j.jcp.2018.06.042}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update every 10 steps, delay 20 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 6.1
+  ghost atom cutoff = 6.1
+  binsize = 3.05, bins = 45 45 7
+  3 neighbor lists, perpetual/occasional/extra = 3 0 0
+  (1) pair spin/exchange, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+  (2) pair spin/magelec, perpetual, copy from (1)
+      attributes: full, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+  (3) pair spin/dmi, perpetual, copy from (1)
+      attributes: full, newton on
+      pair build: copy
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 8.154 | 8.154 | 8.154 Mbytes
+   Step          Time        v_magnorm        PotEng         v_emag          Temp          TotEng    
+         0   0              0.010071723   -0.69133656    -0.69216501     0             -0.69133656   
+        50   0.01           0.0098311454  -1.3202438     -1.320986       0             -1.3202438    
+       100   0.02           0.0095906178  -1.9450685     -1.9456849      0             -1.9450685    
+       150   0.03           0.0093491749  -2.5660036     -2.5664905      0             -2.5660036    
+       200   0.04           0.0091054139  -3.1833442     -3.183732       0             -3.1833442    
+       250   0.05           0.0088577905  -3.7973819     -3.7977298      0             -3.7973819    
+       300   0.06           0.0086054833  -4.4083407     -4.4087274      0             -4.4083407    
+       350   0.07           0.0083490733  -5.0163702     -5.0168797      0             -5.0163702    
+       400   0.08           0.0080904349  -5.6215805     -5.6222866      0             -5.6215805    
+       450   0.09           0.0078319209  -6.224088      -6.2250403      0             -6.224088     
+       500   0.1            0.007575486   -6.8240528     -6.8252667      0             -6.8240528    
+Loop time of 8.21561 on 1 procs for 500 steps with 5780 atoms
+
+Performance: 1.052 ns/day, 22.821 hours/ns, 60.860 timesteps/s
+99.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 2.3188     | 2.3188     | 2.3188     |   0.0 | 28.22
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.015381   | 0.015381   | 0.015381   |   0.0 |  0.19
+Output  | 0.047574   | 0.047574   | 0.047574   |   0.0 |  0.58
+Modify  | 5.8238     | 5.8238     | 5.8238     |   0.0 | 70.89
+Other   |            | 0.01012    |            |       |  0.12
+
+Nlocal:           5780 ave        5780 max        5780 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1065 ave        1065 max        1065 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:        92480 ave       92480 max       92480 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 92480
+Ave neighs/atom = 16
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:08
