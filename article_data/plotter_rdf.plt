@@ -1,5 +1,5 @@
 set terminal png size 1000,1000 
-set output 'rdf.png'
+set output 'rdf_comp.png'
 
 set lmargin 16
 set rmargin 5
@@ -31,7 +31,8 @@ set ytics font ",25" offset 0,0
 
 plot "0_7f_0_6e_rdf2.txt" u 1:11 smooth csplines lw 4 lc "blue" title "Na-Na",\
 "0_7f_0_6e_rdf2.txt" u 1:12 smooth csplines lw 4 lc "red" title "Na-O_w",\
-"0_7f_0_6e_rdf2.txt" u 1:14 smooth csplines lw 4 lc "purple" title "O_w-O_w",\
+"0_7f_0_2e_rdf.txt" u 1:11 smooth csplines lw 4 lc "skyblue" title "Na-Na",\
+"0_7f_0_2e_rdf.txt" u 1:12 smooth csplines lw 4 lc "light-coral" title "Na-O_w",\
 
 
 
