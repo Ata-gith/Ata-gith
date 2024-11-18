@@ -1,0 +1,44 @@
+units			real
+atom_style      full
+
+boundary p p p
+
+bond_style harmonic
+angle_style harmonic
+dihedral_style harmonic
+
+#variable dumpname string "2x"
+
+pair_style lj/cut/coul/long 10
+kspace_style ewald 1.0e-4
+
+read_data ${dumpname}npt_min.data
+
+variable t equal ${elec}/1000  # [elec] = Volts per angstrom
+
+read_dump ${dumpname}_min_field_npt_ef${t}.dump 1000 x y z
+
+
+
+group mnfn type 1 2
+group sodium type 3
+group water type 4 5
+pair_modify mix arithmetic
+
+
+compute 1 sodium displace/atom
+
+
+
+variable ts equal step
+timestep 1
+thermo		10000
+
+dump disps sodium custom 1000 ${dumpname}_${t}_disps.dump id type c_1[*]
+
+
+rerun ${dumpname}_min_field_npt_ef${t}.dump first 1000 dump x y z
+
+
+
+
