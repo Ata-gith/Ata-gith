@@ -1,0 +1,71 @@
+units			real
+atom_style      full
+
+boundary p p p
+
+bond_style harmonic
+angle_style harmonic
+dihedral_style harmonic
+
+
+pair_style lj/cut/coul/long 10
+kspace_style ewald 1.0e-4
+
+read_data clayff_static.data
+
+group mnfn type 1 2
+group sodium type 3
+group water type 4 5
+group water_o type 4
+
+
+
+set type 1 charge 1.85
+set type 2 charge -1.05
+set type 3 charge 1
+
+pair_modify mix arithmetic
+
+variable ts equal step
+
+compute entrpy_l1 sodium entropy/atom 0.1 6 local yes avg yes 1
+compute l1 sodium reduce ave c_entrpy_l1
+variable var_ent1 equal c_l1
+
+compute entrpy_l2 sodium entropy/atom 0.1 6 local yes avg yes 1
+compute l2 sodium reduce ave c_entrpy_l2
+variable var_ent2 equal c_l2
+
+compute entrpy_l3 sodium entropy/atom 0.1 6 local yes avg yes 1
+compute l3 sodium reduce ave c_entrpy_l3
+variable var_ent3 equal c_l3
+
+compute entrpy_l4 sodium entropy/atom 0.1 6 local yes avg yes 1
+compute l4 sodium reduce ave c_entrpy_l4
+variable var_ent4 equal c_l4
+
+thermo_modify temp myTemp
+timestep 1
+thermo		100
+
+fix extra all print 100 "${ts}, ${var_ent}" file static_entrp_7z_002.txt
+rerun static_lowef0.02_7z.dump first 10000 last 100000 dump x y z vx vy vz
+unfix extra
+
+fix extra all print 100 "${ts}, ${var_ent}" file static_entrp_7z_004.txt
+rerun static_lowef0.04_7z.dump first 10000 last 100000 dump x y z vx vy vz
+unfix extra
+
+fix extra all print 100 "${ts}, ${var_ent}" file static_entrp_7z_006.txt
+rerun static_lowef0.06_7z.dump first 10000 last 100000 dump x y z vx vy vz
+unfix extra
+
+fix extra all print 100 "${ts}, ${var_ent}" file static_entrp_7z_008.txt
+rerun static_lowef0.08_7z.dump first 10000 last 100000 dump x y z vx vy vz
+unfix extra
+
+fix extra all print 100 "${ts}, ${var_ent}" file static_entrp_7z_01.txt
+rerun static_lowef0.1_7z.dump first 10000 last 100000 dump x y z vx vy vz
+unfix extra
+
+
