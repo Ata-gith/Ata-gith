@@ -24,10 +24,10 @@ group mnfn type 1 2
 group sodium type 3
 group water type 4 5
 
-region layer1 block INF INF INF INF 18 23
-region layer2 block INF INF INF INF 10 15
+region layer1 block INF INF INF INF 17 23
+region layer2 block INF INF INF INF 9 15
 region layer3 block INF INF INF INF 2 8
-region layer4 block INF INF INF INF -6 0
+region layer4 block INF INF INF INF -5.5 1.5
 
 
 group lr1 region layer1
