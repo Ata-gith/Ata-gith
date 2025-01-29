@@ -1,0 +1,48 @@
+
+include         system.in.init
+
+read_data npt_equilib.data
+
+group backbone type 3 6 # 217 908
+group outercarbon type 1 # 213
+group outeroxygen type 2 # 214
+group singlecarbonhydrogen type 4 #  85
+group doublecarbonhydrogen type 7 # 911
+group ions type 5 # 880
+group water type 8 9 
+
+
+
+variable ts equal step
+
+variable bbycm equal xcm(backbone,y)
+
+variable bbzcm equal xcm(backbone,z)
+
+variable sod_disty atom xcm(ions,y)-xcm(backbone,y)
+
+variable sod_distx atom xcm(ions,x)-xcm(backbone,x)
+
+region aroundpipe cylinder z v_bbycm v_bbzcm 5 INF INF
+
+group water_in_reg dynamic water region aroundpipe every 1000
+
+compute wchunk water_in_reg chunk/atom molecule
+
+compute dip water_in_reg dipole/chunk wchunk
+
+
+fix 1 all ave/time 10 1 10 c_dip[*] file tmp.out mode vector
+
+fix output all print 1000 "${ts} ${bbycm} ${bbzcm}" append relax1backbonecm.txt title "t ycm zcm"
+
+
+timestep 1
+thermo		100
+
+
+rerun relax1.lammpstrj dump x y z 
+
+
+
+
